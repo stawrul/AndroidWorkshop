@@ -54,6 +54,12 @@ public class Note {
     }
 
     public void setStarred(boolean starred) {
+
         this.starred = starred;
+    }
+
+    @Override
+    public String toString() {
+        return getTitle();
     }
 }
