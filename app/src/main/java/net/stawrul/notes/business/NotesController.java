@@ -41,6 +41,10 @@ public class NotesController {
         notes.addAll(starrtedCategory.getNotes());
     }
 
+    public List<Note> getNotes() {
+        return notes;
+    }
+
     public List<Category> getCategories() {
         return categories;
     }

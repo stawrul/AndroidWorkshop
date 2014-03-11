@@ -3,6 +3,7 @@ package net.stawrul.notes.view;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -100,6 +101,9 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onFragmentInteraction(int id) {
 
+        Intent intent = new Intent(this, NoteActivity.class);
+        intent.putExtra(NoteActivity.ARG_NOTE_ID, id);
+        startActivity(intent);
 
     }
 
