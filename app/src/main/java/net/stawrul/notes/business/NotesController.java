@@ -22,7 +22,7 @@ public class NotesController {
         notesCategory.addNote(note);
         note = new Note(1, "Druga notatka", "Inna notatka", new Date(), false);
         notesCategory.addNote(note);
-        note = new Note(2, "Pierwsze", "Jeszcze inna tresc", new Date(), false);
+        note = new Note(2, "Trzecia", "Jeszcze inna tresc", new Date(), false);
         notesCategory.addNote(note);
 
         categories.add(notesCategory);
@@ -47,5 +47,10 @@ public class NotesController {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public void addCategory(String categoryName) {
+        Category category = new Category(categories.size(), categoryName, Category.Type.USER_DEFINE, 0);
+        categories.add(category);
     }
 }
