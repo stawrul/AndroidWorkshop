@@ -12,5 +12,6 @@
     <string name="title_activity_note">NoteActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="save">Save</string>
+    <string name="category_name">Category name</string>
 
 </resources>

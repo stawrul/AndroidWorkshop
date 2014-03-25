@@ -53,4 +53,16 @@ public class NotesController {
         Category category = new Category(categories.size(), categoryName, Category.Type.USER_DEFINE, 0);
         categories.add(category);
     }
+
+    public void deleteCategory(Category category) {
+        categories.remove(category);
+    }
+
+    public Category findCategoryById(int categoryId) {
+        return categories.get(categoryId);
+    }
+
+    public void saveCategory(Category category) {
+        //UPDATE
+    }
 }

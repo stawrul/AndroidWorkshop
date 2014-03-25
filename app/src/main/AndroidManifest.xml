@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.EditCategoryActivity" android:label="Edit category"/>
+        <activity android:name=".view.EditCategoryActivity" android:label="@string/category_name"
+            android:theme="@android:style/Theme.Holo.Light.Dialog"/>
     </application>
 
 </manifest>
