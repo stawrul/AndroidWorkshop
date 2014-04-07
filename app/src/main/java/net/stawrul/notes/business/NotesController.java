@@ -65,4 +65,14 @@ public class NotesController {
     public void saveCategory(Category category) {
         //UPDATE
     }
+
+    public void toggleStar(Note note) {
+        note.setStarred(!note.isStarred());
+
+        if (note.isStarred()) {
+            categories.get(1).addNote(note);
+        } else {
+            categories.get(1).getNotes().remove(note);
+        }
+    }
 }
