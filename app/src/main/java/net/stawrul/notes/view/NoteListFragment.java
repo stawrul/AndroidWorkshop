@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import net.stawrul.notes.business.NotesController;
 import net.stawrul.notes.model.Note;
-import net.stawrul.notes.view.dummy.DummyContent;
+import net.stawrul.notes.view.adapters.NoteArrayAdapter;
 
 import java.util.List;
 
 /**
  * A fragment representing a list of Items.
- * <p />
- * <p />
+ * <p/>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -28,6 +27,7 @@ public class NoteListFragment extends ListFragment {
 
     private OnFragmentInteractionListener mListener;
     private NotesController notesController;
+    private NoteArrayAdapter adapter;
 
     public static NoteListFragment newInstance(int categoryId) {
         NoteListFragment fragment = new NoteListFragment();
@@ -55,8 +55,16 @@ public class NoteListFragment extends ListFragment {
         notesController = new NotesController();
         List<Note> notes = notesController.getCategories().get(categoryId).getNotes();
 
-        setListAdapter(new ArrayAdapter<Note>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, notes));
+
+        adapter = new NoteArrayAdapter(getActivity(), notes) {
+            @Override
+            public void onClick(final View view, final Note note) {
+                    notesController.toggleStar(note);
+                    adapter.notifyDataSetChanged();
+            }
+        };
+
+        setListAdapter(adapter);
     }
 
 
@@ -67,7 +75,7 @@ public class NoteListFragment extends ListFragment {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -92,15 +100,15 @@ public class NoteListFragment extends ListFragment {
     }
 
     /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(int id);
     }
