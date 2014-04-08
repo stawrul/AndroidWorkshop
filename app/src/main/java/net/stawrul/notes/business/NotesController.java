@@ -1,5 +1,6 @@
 package net.stawrul.notes.business;
 
+import android.database.sqlite.SQLiteDatabase;
 import net.stawrul.notes.R;
 import net.stawrul.notes.model.Category;
 import net.stawrul.notes.model.Note;
@@ -46,6 +47,7 @@ public class NotesController {
     }
 
     public List<Category> getCategories() {
+        SQLiteDatabase db = DBHelper.instance().getReadableDatabase();
         return categories;
     }
 

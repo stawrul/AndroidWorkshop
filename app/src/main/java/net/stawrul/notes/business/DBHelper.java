@@ -3,22 +3,28 @@ package net.stawrul.notes.business;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import net.stawrul.notes.App;
 import net.stawrul.notes.R;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "notesdb.sqlite";
     public static final int DB_VERSION = 7;
+    private static DBHelper instance;
 
-    public DBHelper(Context context) {
+    private DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+    }
+
+    public static DBHelper instance() {
+        if (instance == null) {
+            instance = new DBHelper(App.getContext());
+        }
+        return instance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//CREATE TABLE
-//CREATE TABLE
-//CREATE TABLE
 
         String categoryTable = "CREATE TABLE categories (" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -65,10 +71,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//ALTER TABLE
 
-        for (int i = oldVersion; i < newVersion; i++) {
+        db.execSQL("DROP TABLE notes_categories");
+        db.execSQL("DROP TABLE notes");
+        db.execSQL("DROP TABLE categories");
 
-        }
+        onCreate(db);
     }
 }
