@@ -4,6 +4,7 @@ package net.stawrul.notes.view;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -62,6 +63,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     private NotesController notesController;
+    private ItemWithIconAdapter adapter;
 
     public NavigationDrawerFragment() {
         notesController = new NotesController();
@@ -105,7 +107,7 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
 
-        ItemWithIconAdapter adapter = new ItemWithIconAdapter(getActionBar().getThemedContext(),
+        adapter = new ItemWithIconAdapter(getActionBar().getThemedContext(),
                 R.layout.list_item_with_icon, notesController.getCategories());
         mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -249,10 +251,16 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_example) {
             Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
             return true;
         }
+
+        if (itemId == R.id.action_manage_categories) {
+            startActivity(new Intent(getActivity(), CategoriesActivity.class));
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -270,6 +278,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     /**
