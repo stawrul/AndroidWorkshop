@@ -9,7 +9,7 @@ import net.stawrul.notes.R;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "notesdb.sqlite";
-    public static final int DB_VERSION = 7;
+    public static final int DB_VERSION = 8;
     private static DBHelper instance;
 
     private DBHelper(Context context) {
@@ -49,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 ");";
 
         String categories = "INSERT INTO categories (_id, name, icon, type) VALUES " +
-                "(1, 'Notes', " + R.drawable.ic_notes + " , 0), " +
+                "(1, 'Notes new', " + R.drawable.ic_notes + " , 0), " +
                 "(2, 'Starred', " + R.drawable.ic_starred + " , 1), " +
                 "(3, 'Archive', " + R.drawable.ic_archive + " , 2); ";
 

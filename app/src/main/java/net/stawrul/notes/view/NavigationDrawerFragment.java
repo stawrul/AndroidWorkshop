@@ -28,6 +28,8 @@ import net.stawrul.notes.business.NotesController;
 import net.stawrul.notes.model.Category;
 import net.stawrul.notes.view.adapters.ItemWithIconAdapter;
 
+import java.util.List;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -65,6 +67,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
     private NotesController notesController;
     private ItemWithIconAdapter adapter;
+    private List<Category> categories;
 
     public NavigationDrawerFragment() {
         notesController = new NotesController();
@@ -85,7 +88,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        selectItem(0, 1);
     }
 
     @Override
@@ -103,13 +106,15 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+                int categoryId = categories.get(position).getId();
+                selectItem(position, categoryId);
             }
         });
 
 
+        categories = notesController.getCategories();
         adapter = new ItemWithIconAdapter(getActionBar().getThemedContext(),
-                R.layout.list_item_with_icon, notesController.getCategories());
+                R.layout.list_item_with_icon, categories);
         mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -193,16 +198,16 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
+    private void selectItem(int selected, int categoryId) {
+        mCurrentSelectedPosition = selected;
         if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+            mDrawerListView.setItemChecked(selected, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+            mCallbacks.onNavigationDrawerItemSelected(categoryId);
         }
     }
 

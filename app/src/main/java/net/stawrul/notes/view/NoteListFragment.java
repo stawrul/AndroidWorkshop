@@ -53,7 +53,7 @@ public class NoteListFragment extends ListFragment {
         }
 
         notesController = new NotesController();
-        List<Note> notes = notesController.getCategories().get(categoryId).getNotes();
+        List<Note> notes = notesController.findNotesByCategoryId(categoryId);
 
 
         adapter = new NoteArrayAdapter(getActivity(), notes) {
