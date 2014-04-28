@@ -16,7 +16,7 @@ import java.util.List;
  * A fragment representing a list of Items.
  * <p/>
  * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
+ * Activities containing this fragment MUST implement the {@link net.stawrul.notes.view.NoteListFragment.OnFragmentInteractionListener}
  * interface.
  */
 public class NoteListFragment extends ListFragment {
@@ -28,6 +28,7 @@ public class NoteListFragment extends ListFragment {
     private OnFragmentInteractionListener mListener;
     private NotesController notesController;
     private NoteArrayAdapter adapter;
+    private List<Note> notes;
 
     public static NoteListFragment newInstance(int categoryId) {
         NoteListFragment fragment = new NoteListFragment();
@@ -53,7 +54,7 @@ public class NoteListFragment extends ListFragment {
         }
 
         notesController = new NotesController();
-        List<Note> notes = notesController.findNotesByCategoryId(categoryId);
+        notes = notesController.findNotesByCategoryId(categoryId);
 
 
         adapter = new NoteArrayAdapter(getActivity(), notes) {
@@ -93,7 +94,7 @@ public class NoteListFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            Note note = notesController.getCategories().get(categoryId).getNotes().get(position);
+            Note note = notes.get(position);
             mListener.onFragmentInteraction(note.getId());
         }
 

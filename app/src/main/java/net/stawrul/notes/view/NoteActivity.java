@@ -22,7 +22,7 @@ public class NoteActivity extends Activity {
         int noteId = getIntent().getIntExtra(ARG_NOTE_ID, 0);
 
         notesController = new NotesController();
-        Note note = notesController.getNotes().get(noteId);
+        Note note = notesController.findNoteById(noteId);
 
         EditText noteTitle = (EditText) findViewById(R.id.noteTitle);
         noteTitle.setText(note.getTitle());
