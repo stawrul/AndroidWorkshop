@@ -17,6 +17,9 @@ public class Category {
     int icon;
     Type type;
 
+    public Category() {
+    }
+
     public Category(int id, String name, Type type, int icon) {
         this.id = id;
         this.name = name;

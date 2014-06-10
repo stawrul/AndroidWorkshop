@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import net.stawrul.notes.R;
+import net.stawrul.notes.business.GetCategoriesService;
 import net.stawrul.notes.business.NotesController;
 import net.stawrul.notes.model.Category;
 
@@ -111,6 +112,9 @@ public class CategoriesActivity extends ListActivity {
                 selectedPosition = position;
             }
         });
+
+        Intent intent = new Intent(this, GetCategoriesService.class);
+        this.startService(intent);
     }
 
     @Override

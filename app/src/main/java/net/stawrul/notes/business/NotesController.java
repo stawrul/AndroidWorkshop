@@ -4,10 +4,16 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.os.AsyncTask;
 import net.stawrul.notes.R;
 import net.stawrul.notes.model.Category;
 import net.stawrul.notes.model.Note;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 public class NotesController {
@@ -35,13 +41,41 @@ public class NotesController {
         return categories;
     }
 
-    public void addCategory(String categoryName) {
+    public void addCategory(final String categoryName) {
         SQLiteDatabase db = DBHelper.instance().getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", categoryName);
         values.put("type", Category.Type.USER_DEFINE.ordinal());
         values.put("icon", 0);
-        db.insert("categories", null, values);
+        final long id = db.insert("categories", null, values);
+
+        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    URL url = new URL("http://10.0.2.2:9999/categories");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(conn.getOutputStream());
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    String json = mapper.writeValueAsString(new Category((int) id, categoryName, Category.Type.USER_DEFINE, 0));
+
+                    outputStreamWriter.write(json);
+                    outputStreamWriter.close();
+
+                    conn.getResponseCode();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+        };
+
+        task.execute();
 
     }
 
